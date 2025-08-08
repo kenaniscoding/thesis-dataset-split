@@ -1,4 +1,5 @@
 # Mango Split Dataset
+- img augmentation to reach 10,000 imgs
 ## How to run 
 ### Inputs
 - input source dir of the input imgs

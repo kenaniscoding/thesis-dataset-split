@@ -5,7 +5,7 @@
 - output source dir of the split imgs
 - no. of output imgs desired (10,000)
 ```bash
-python split-v2.py --source "C:\source" --output "E:\trash" --massive-augment 10000
+python split-v2.py --source "C:\input" --output "E:\output" --massive-augment 10000
 ```
 ## Example CLI INPUT
 ```bash

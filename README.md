@@ -1,5 +1,6 @@
 # Mango Split Dataset
 - img augmentation to reach 10,000 imgs
+- dataset link [here](https://drive.google.com/drive/folders/1tLUeG6NLy-yfO8jMLsA9KxOyEoKQxMbM?usp=sharing)
 - when done splitting dataset refer [here](https://github.com/kenaniscoding/thesis-train-test) for training and testing dataset steps/code
 ## How to run 
 ### Inputs

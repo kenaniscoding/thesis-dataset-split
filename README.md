@@ -11,6 +11,9 @@
 ```bash
 python split-v2.py --source "C:\input" --output "E:\output" --massive-augment 10000
 ```
+```bash
+python datasplit_log.py --source "C:\input" --output "E:\output" --massive-augment 10000
+```
 ## Example CLI INPUT
 ```bash
 python datasplit_log.py --source "C:\Users\Kenan\Downloads\Dataset_mangoes-20250804T050733Z-1-002\Dataset_mangoes\sorted\mango_dataset_v3\sorted_1_1" --output "E:\trash" --massive-augment 10000

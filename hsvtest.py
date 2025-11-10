@@ -1,8 +1,8 @@
 import cv2
 
 # Read the image
-fr_img = cv2.imread('sample_green.png')
-bg_img = cv2.imread('background1.png')
+fr_img = cv2.imread('paper_dataset/mango_3_top.png')
+bg_img = cv2.imread('paper_dataset/mango_3_background.png')
 
 # Convert to HSV
 hsv_img = cv2.cvtColor(fr_img, cv2.COLOR_BGR2HSV)
@@ -27,13 +27,57 @@ cv2.waitKey(0)
 cv2.imshow('Bg HSV Image', bg_resized_hsv)
 cv2.waitKey(0) 
 fgMask = cv2.absdiff(resized_hsv, bg_resized_hsv)
+
+# for attempt without foreground background subtraction
+# fgMask = resized_hsv
+
 cv2.imshow('Foreground Mask', fgMask)
 cv2.waitKey(0)
 gray = cv2.cvtColor(fgMask, cv2.COLOR_BGR2GRAY)
+
 gray = cv2.GaussianBlur(gray, (7, 7), 0)
 cv2.imshow('Grayscale with Blur Edges', gray)
 cv2.waitKey(0)
-edged = cv2.Canny(gray, 80, 100)
+
+# blurred = cv2.medianBlur(gray, 5)
+# cv2.imshow('Median Blurred', blurred)
+# cv2.waitKey(0)
+
+# bilateral = cv2.bilateralFilter(gray, 15, 150, 150)  
+# cv2.imshow('Bilateral Blur', bilateral)
+# cv2.waitKey(0)
+
+edged = cv2.Canny(gray, 100, 150)
 cv2.imshow('Canny Edges', edged)
 cv2.waitKey(0)
+contours, hierarchy = cv2.findContours(edged,
+                      cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+# cv2.imshow('Canny Edges After Contouring', edged)
+# cv2.waitKey(0)
+
+# Draw contours on a blank background or original image
+output = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
+cv2.drawContours(output, contours, -1, (0, 255, 0), 2)
+
+cv2.imshow('Contours', output)
+cv2.waitKey(0)
+
+largest_contour = max(contours, key=cv2.contourArea)
+
+# Draw a bounding rectangle around the mango
+x, y, w, h = cv2.boundingRect(largest_contour)
+
+# Draw the rectangle for visualization
+output = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
+cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+cv2.imshow('Bounding Box', output)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+# Print measurements
+print(f"Width (pixels): {w}")
+print(f"Height (pixels): {h}")
+
+
 cv2.destroyAllWindows()

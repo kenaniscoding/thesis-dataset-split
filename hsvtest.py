@@ -33,16 +33,20 @@ cv2.waitKey(0)
 gray = cv2.cvtColor(fgMask, cv2.COLOR_BGR2GRAY)
 
 # Attempted Gaussian and Bilateral Blur but Median Blur worked best
-# gray = cv2.GaussianBlur(gray, (7, 7), 0)
-# cv2.imshow('Gaussian Blurred', gray)
+# gaussian = cv2.GaussianBlur(gray, (3, 3), 1)
+# cv2.imshow('Gaussian Blurred', gaussian)
 # cv2.waitKey(0)
 
-median = cv2.medianBlur(gray, 7)
-cv2.imshow('Median Blurred', median)
-cv2.waitKey(0)
+# median = cv2.medianBlur(gray, 3)
+# cv2.imshow('Median Blurred', median)
+# cv2.waitKey(0)
 
 # bilateral = cv2.bilateralFilter(gray, 15, 150, 150)  
 # cv2.imshow('Bilateral Blur', bilateral)
+# cv2.waitKey(0)
+
+# ave = cv2.blur(gray, (3, 3))
+# cv2.imshow('Average Blurred', ave)
 # cv2.waitKey(0)
 
 # Apply automatic Canny thresholding
@@ -50,13 +54,16 @@ cv2.waitKey(0)
 # typical 0.66 and 1.33
 # conservative 0.5 and 1.5
 # aggressive 0.7 and 1.3
-v = np.median(gray)
+
+# if blur is gray var then no blur applied
+blur = gray
+v = np.median(blur)
 lower = int(max(0, 0.66 * v))
 upper = int(min(255, 1.33 * v))
 
 # Canny edge detection
 # tried Sobel but Canny worked better
-edged = cv2.Canny(gray, lower, upper)
+edged = cv2.Canny(blur, lower, upper)
 cv2.imshow('Canny Edges', edged)
 cv2.waitKey(0)
 

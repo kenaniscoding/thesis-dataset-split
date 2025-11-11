@@ -35,13 +35,15 @@ cv2.imshow('Foreground Mask', fgMask)
 cv2.waitKey(0)
 gray = cv2.cvtColor(fgMask, cv2.COLOR_BGR2GRAY)
 
-gray = cv2.GaussianBlur(gray, (7, 7), 0)
-cv2.imshow('Grayscale with Blur Edges', gray)
-cv2.waitKey(0)
 
-# blurred = cv2.medianBlur(gray, 5)
-# cv2.imshow('Median Blurred', blurred)
+# Attempted Medianblur and Bilateral filter but Gaussian worked best
+# gray = cv2.GaussianBlur(gray, (7, 7), 0)
+# cv2.imshow('Gaussian Blurred', gray)
 # cv2.waitKey(0)
+
+median = cv2.medianBlur(gray, 7)
+cv2.imshow('Median Blurred', median)
+cv2.waitKey(0)
 
 # bilateral = cv2.bilateralFilter(gray, 15, 150, 150)  
 # cv2.imshow('Bilateral Blur', bilateral)
@@ -50,18 +52,13 @@ cv2.waitKey(0)
 edged = cv2.Canny(gray, 100, 150)
 cv2.imshow('Canny Edges', edged)
 cv2.waitKey(0)
+
+gray = median
+# --- Sobel edge detection ---
+# tried but Canny worked better
+
 contours, hierarchy = cv2.findContours(edged,
                       cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-# cv2.imshow('Canny Edges After Contouring', edged)
-# cv2.waitKey(0)
-
-# Draw contours on a blank background or original image
-output = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
-cv2.drawContours(output, contours, -1, (0, 255, 0), 2)
-
-cv2.imshow('Contours', output)
-cv2.waitKey(0)
-
 largest_contour = max(contours, key=cv2.contourArea)
 
 # Draw a bounding rectangle around the mango
@@ -73,7 +70,6 @@ cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
 cv2.imshow('Bounding Box', output)
 cv2.waitKey(0)
-cv2.destroyAllWindows()
 
 # Print measurements
 print(f"Width (pixels): {w}")

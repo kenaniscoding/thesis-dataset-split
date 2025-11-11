@@ -1,7 +1,8 @@
-import cv2
+import cv2, numpy as np
 
 # Read the image
-fr_img = cv2.imread('paper_dataset/mango_3_top.png')
+# fr_img = cv2.imread('paper_dataset/mango_3_top.png')
+fr_img = cv2.imread('paper_dataset/mango_3_bottom.png')
 bg_img = cv2.imread('paper_dataset/mango_3_background.png')
 
 # Convert to HSV
@@ -49,14 +50,22 @@ cv2.waitKey(0)
 # cv2.imshow('Bilateral Blur', bilateral)
 # cv2.waitKey(0)
 
-edged = cv2.Canny(gray, 100, 150)
+# Apply automatic Canny thresholding
+# 0.66 and 1.33 come from a common heuristic used in the “auto-Canny” method
+# typical 0.66 and 1.33
+# conservative 0.5 and 1.5
+# aggressive 0.7 and 1.3
+v = np.median(gray)
+lower = int(max(0, 0.6 * v))
+upper = int(min(255, 1.33 * v))
+
+# --- Sobel edge detection ---
+# tried but Canny worked better
+edged = cv2.Canny(gray, lower, upper)
 cv2.imshow('Canny Edges', edged)
 cv2.waitKey(0)
 
-gray = median
-# --- Sobel edge detection ---
-# tried but Canny worked better
-
+# Find contours and get the largest one
 contours, hierarchy = cv2.findContours(edged,
                       cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
 largest_contour = max(contours, key=cv2.contourArea)
@@ -67,7 +76,6 @@ x, y, w, h = cv2.boundingRect(largest_contour)
 # Draw the rectangle for visualization
 output = cv2.cvtColor(edged, cv2.COLOR_GRAY2BGR)
 cv2.rectangle(output, (x, y), (x + w, y + h), (0, 255, 0), 2)
-
 cv2.imshow('Bounding Box', output)
 cv2.waitKey(0)
 

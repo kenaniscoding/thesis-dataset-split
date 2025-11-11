@@ -23,8 +23,8 @@ bg_resized_hsv = cv2.resize(hsv_bg_img, (other_width, other_height), interpolati
 # Display the resized HSV image
 cv2.imshow('Resized HSV Image', resized_hsv)
 cv2.waitKey(0) 
-cv2.imshow('Bg HSV Image', bg_resized_hsv)
-cv2.waitKey(0) 
+# cv2.imshow('Bg HSV Image', bg_resized_hsv)
+# cv2.waitKey(0) 
 
 # Foreground Mask Creation using Absolute Difference
 fgMask = cv2.absdiff(resized_hsv, bg_resized_hsv)
@@ -51,11 +51,11 @@ cv2.waitKey(0)
 # conservative 0.5 and 1.5
 # aggressive 0.7 and 1.3
 v = np.median(gray)
-lower = int(max(0, 0.6 * v))
+lower = int(max(0, 0.66 * v))
 upper = int(min(255, 1.33 * v))
 
-# Sobel edge detection
-# tried but Canny worked better
+# Canny edge detection
+# tried Sobel but Canny worked better
 edged = cv2.Canny(gray, lower, upper)
 cv2.imshow('Canny Edges', edged)
 cv2.waitKey(0)

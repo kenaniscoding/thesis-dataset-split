@@ -7,14 +7,12 @@ bg_img = cv2.imread('paper_dataset/mango_3_background.png')
 
 # Convert to HSV
 hsv_img = cv2.cvtColor(fr_img, cv2.COLOR_BGR2HSV)
-
 hsv_bg_img = cv2.cvtColor(bg_img, cv2.COLOR_BGR2HSV)
 
 # Decrease scale (e.g., 50% smaller)
 scale = 0.5
 new_width = int(hsv_img.shape[1] * scale)
 new_height = int(hsv_img.shape[0] * scale)
-
 other_width = int(hsv_bg_img.shape[1] * scale)
 other_height = int(hsv_bg_img.shape[0] * scale)
 
@@ -27,17 +25,14 @@ cv2.imshow('Resized HSV Image', resized_hsv)
 cv2.waitKey(0) 
 cv2.imshow('Bg HSV Image', bg_resized_hsv)
 cv2.waitKey(0) 
+
+# Foreground Mask Creation using Absolute Difference
 fgMask = cv2.absdiff(resized_hsv, bg_resized_hsv)
-
-# for attempt without foreground background subtraction
-# fgMask = resized_hsv
-
 cv2.imshow('Foreground Mask', fgMask)
 cv2.waitKey(0)
 gray = cv2.cvtColor(fgMask, cv2.COLOR_BGR2GRAY)
 
-
-# Attempted Medianblur and Bilateral filter but Gaussian worked best
+# Attempted Gaussian and Bilateral Blur but Median Blur worked best
 # gray = cv2.GaussianBlur(gray, (7, 7), 0)
 # cv2.imshow('Gaussian Blurred', gray)
 # cv2.waitKey(0)
@@ -59,7 +54,7 @@ v = np.median(gray)
 lower = int(max(0, 0.6 * v))
 upper = int(min(255, 1.33 * v))
 
-# --- Sobel edge detection ---
+# Sobel edge detection
 # tried but Canny worked better
 edged = cv2.Canny(gray, lower, upper)
 cv2.imshow('Canny Edges', edged)
@@ -82,6 +77,5 @@ cv2.waitKey(0)
 # Print measurements
 print(f"Width (pixels): {w}")
 print(f"Height (pixels): {h}")
-
 
 cv2.destroyAllWindows()

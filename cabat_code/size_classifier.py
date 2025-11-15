@@ -2,8 +2,13 @@ import argparse
 import tensorflow as tf
 import numpy as np
 
+UP_MEAN = 7.78846154
+DOWN_MEAN = 12.33076923
+UP_STD = 0.81350473
+DOWN_STD = 1.03432223
+
 # Linear regression Frozen path
-frozen_path = "frozen_models/LR_frozen_model.pb"
+frozen_path = "model/LR_frozen_model.pb"
 
 def load_graph(frozen_graph_filename):
     # We load the protobuf file from the disk and parse it to retrieve the 
@@ -21,8 +26,8 @@ def load_graph(frozen_graph_filename):
 
 def normalize_size(x):
     #Values obtained from train.py output
-    mean = np.asarray([[76.06636364, 119.57220779]])
-    std = np.asarray([[5.95719927, 8.19216614]])
+    mean = np.asarray([[UP_MEAN, DOWN_MEAN]])
+    std = np.asarray([[UP_STD, DOWN_STD]])
     x_normalized = (x - mean) / std
     return x_normalized
 

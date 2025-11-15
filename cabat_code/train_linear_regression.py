@@ -8,8 +8,11 @@ from __future__ import print_function, division
 
 import json
 import numpy as np
-import tensorflow as tf
+# import tensorflow as tf
 import os
+
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -143,7 +146,7 @@ def main():
     if not os.path.exists("model"):
         os.makedirs("model")
 
-    x, y = load_data("dataset/mango_sizes.csv")
+    x, y = load_data("mango_sizes.csv")
 
     model = TFLinearRegression("model/tf.model")
     x_norm, me, std = normalize(x)

@@ -42,8 +42,8 @@ def get_size(image_frame, calibrated_pxm):
 	X = dA / calibrated_pxm
 	Y = dB / calibrated_pxm
 
-	X = X * 25.4
-	Y = Y * 25.4
+	# X = X * 25.4
+	# Y = Y * 25.4
 
 	if X > Y:
 		Y_ = X
@@ -66,5 +66,5 @@ if __name__ == '__main__':
         exit(1)
         
     x, y = get_size(image, PX_to_CM)
-    print(f"X Dimension (mm): {x:.2f}, Y Dimension (mm): {y:.2f}")
+    print(f"X Dimension (cm): {x:.2f}, Y Dimension (cm): {y:.2f}")
     # get_size(args.image_path, args.size_value)

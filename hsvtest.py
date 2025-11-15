@@ -4,13 +4,15 @@ import cv2, numpy as np
 # fr_img = cv2.imread('paper_dataset/mango_3_top.png')
 fr_img = cv2.imread('paper_dataset/mango_3_bottom.png')
 bg_img = cv2.imread('paper_dataset/mango_3_background.png')
+# fr_img = cv2.imread('vid/fg_resize1.png')
+# bg_img = cv2.imread('vid/bg_resize1.png')
 
 # Convert to HSV
 hsv_img = cv2.cvtColor(fr_img, cv2.COLOR_BGR2HSV)
 hsv_bg_img = cv2.cvtColor(bg_img, cv2.COLOR_BGR2HSV)
 
 # Decrease scale (e.g., 50% smaller)
-scale = 0.5
+scale = 1.0
 new_width = int(hsv_img.shape[1] * scale)
 new_height = int(hsv_img.shape[0] * scale)
 other_width = int(hsv_bg_img.shape[1] * scale)
